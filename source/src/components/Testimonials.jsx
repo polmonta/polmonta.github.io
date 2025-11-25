@@ -14,7 +14,7 @@ const testimonials = [
     },
     {
         quote: "The best property management app on iOS. The interface is beautiful and intuitive.",
-        author: "David Smith",
+        author: "Victor Rocha",
         role: "Landlord"
     },
     {
@@ -29,7 +29,7 @@ const testimonials = [
     },
     {
         quote: "The reporting features are incredible. Tax season has never been easier!",
-        author: "Lisa Anderson",
+        author: "Jordi Abello",
         role: "Property Manager"
     }
 ];
