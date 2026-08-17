@@ -279,7 +279,16 @@ main {
 }
 
 .hero__visual .hero__legacy-shot {
-  display: none;
+  position: absolute;
+  z-index: 1;
+  right: -3%;
+  bottom: -7%;
+  display: block;
+  width: min(32%, 12rem);
+  border: 0.45rem solid #172033;
+  border-radius: 2rem;
+  box-shadow: 0 1.5rem 2.5rem rgba(51, 65, 85, 0.24);
+  transform: rotate(6deg);
 }
 
 .section {
@@ -733,5 +742,10 @@ main {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .button:hover,
+  .feature-card:hover {
+    transform: none;
   }
 }
