@@ -7,6 +7,14 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const distRoot = path.join(projectRoot, 'dist');
 const homepagePath = path.join(distRoot, 'index.html');
 const articlePath = path.join(distRoot, 'features/financial-control/index.html');
+const homepageVisualAssets = [
+  '/hero-tilted.png',
+  '/img/legacy-app-mockup.jpg',
+  '/img/managestate-logo.png',
+  '/img/feature-financial-summary.png',
+  '/img/feature-document-storage.png',
+  '/img/feature-data-export.png'
+];
 
 function read(pathname) {
   return readFileSync(pathname, 'utf8');
@@ -90,8 +98,17 @@ describe('built legacy visual contract', () => {
     expect(styles).toContain('background:#111827');
     expect(styles).toContain('overflow-x:hidden');
     expect(styles).toContain('@media (prefers-reduced-motion:reduce)');
-    expect(existsSync(path.join(projectRoot, 'public/img/managestate-logo.png'))).toBe(true);
-    expect(existsSync(path.join(projectRoot, 'public/img/legacy-app-mockup.jpg'))).toBe(true);
+    homepageVisualAssets.forEach((assetPath) => {
+      const relativeAssetPath = assetPath.replace(/^\/+/, '');
+      expect(
+        existsSync(path.join(projectRoot, 'public', relativeAssetPath)),
+        `missing source visual asset ${assetPath}`
+      ).toBe(true);
+      expect(
+        existsSync(path.join(distRoot, relativeAssetPath)),
+        `missing built visual asset ${assetPath}`
+      ).toBe(true);
+    });
   });
 
   it('applies the same light visual shell to a representative acquisition article', () => {
