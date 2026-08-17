@@ -31,9 +31,7 @@ const pageMeta = buildPageMeta(Astro.props);
     <main id="main-content">
       <slot />
     </main>
-    <footer>
-      <slot name="footer" />
-    </footer>
+    <slot name="footer" />
     <script src="../scripts/analytics.js"></script>
   </body>
 </html>

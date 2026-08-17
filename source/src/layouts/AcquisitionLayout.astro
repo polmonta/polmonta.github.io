@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Header from '../components/site/Header.astro';
-import Footer from '../components/site/Footer.astro';
+import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx';
 import AppStoreLink from '../components/AppStoreLink.astro';
 import Breadcrumbs from '../components/content/Breadcrumbs.astro';
 import SummaryBlock from '../components/content/SummaryBlock.astro';
@@ -9,6 +9,7 @@ import VisibleFaq from '../components/content/VisibleFaq.astro';
 import RelatedContent from '../components/content/RelatedContent.astro';
 import { buildArticleSchema, buildBreadcrumbListSchema } from '../lib/schema.js';
 import { COLLECTION_LABELS } from '../lib/acquisition.js';
+import { buildAppStoreUrl } from '../lib/app-store.js';
 
 const { entry, path } = Astro.props;
 const { data } = entry;
@@ -46,6 +47,7 @@ const pageMeta = {
   path,
   schemas
 };
+const appStoreUrl = buildAppStoreUrl('website-home', import.meta.env.PUBLIC_APPLE_PROVIDER_TOKEN);
 
 const updatedLabel = new Intl.DateTimeFormat('en-US', {
   timeZone: 'UTC',
@@ -56,7 +58,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 ---
 
 <BaseLayout {...pageMeta}>
-  <Header slot="header" />
+  <Navbar slot="header" client:load appStoreUrl={appStoreUrl} pagePath={path} />
 
   <article class="acquisition-article acquisition-article--legacy">
     <div class="site-container acquisition-article__inner">
@@ -93,12 +95,12 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
     </div>
   </article>
 
-  <Footer slot="footer" />
+  <Footer slot="footer" client:load />
 </BaseLayout>
 
 <style>
   .acquisition-article {
-    padding: 3.5rem 0 6rem;
+    padding: 8rem 0 6rem;
     background:
       radial-gradient(circle at 92% 2%, rgba(233, 213, 255, 0.38), transparent 24rem),
       #ffffff;
