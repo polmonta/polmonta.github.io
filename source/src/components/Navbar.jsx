@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion as Motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/Button';
 
 const defaultAppStoreUrl = 'https://apps.apple.com/app/managestate/id6751497970';
 
-export default function Navbar({ appStoreUrl = defaultAppStoreUrl, pagePath = '/', isHomepage = false }) {
+export default function Navbar({ appStoreUrl = defaultAppStoreUrl, pagePath = '/', isHomepage = false, showTestimonials = true }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sectionHref = (section) => (isHomepage ? `#${section}` : `/#${section}`);
 
@@ -32,7 +33,7 @@ export default function Navbar({ appStoreUrl = defaultAppStoreUrl, pagePath = '/
 
         <div className="hidden md:flex items-center gap-8">
           <a href={sectionHref('features')} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Features</a>
-          <a href={sectionHref('testimonials')} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Testimonials</a>
+          {showTestimonials && <a href={sectionHref('testimonials')} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Testimonials</a>}
           <Button asChild>
             <a
               href={appStoreUrl}
@@ -64,14 +65,15 @@ export default function Navbar({ appStoreUrl = defaultAppStoreUrl, pagePath = '/
         {isMobileMenuOpen && (
           <Motion.div
             id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            transition={shouldReduceMotion ? { duration: 0 } : undefined}
             className="md:hidden bg-white border-b border-gray-100 overflow-hidden"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               <a href={sectionHref('features')} className="text-base font-medium text-gray-600 py-2" onClick={closeMobileMenu}>Features</a>
-              <a href={sectionHref('testimonials')} className="text-base font-medium text-gray-600 py-2" onClick={closeMobileMenu}>Testimonials</a>
+              {showTestimonials && <a href={sectionHref('testimonials')} className="text-base font-medium text-gray-600 py-2" onClick={closeMobileMenu}>Testimonials</a>}
               <Button asChild className="w-full">
                 <a
                   href={appStoreUrl}

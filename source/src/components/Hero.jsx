@@ -49,8 +49,11 @@ export default function Hero({ appStoreUrl = defaultAppStoreUrl, pagePath = '/' 
                 <Motion.span
                   key={title}
                   className="absolute top-0 pb-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600 whitespace-nowrap"
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: '-100%' }}
-                  animate={shouldReduceMotion || titleNumber === index ? { y: 0, opacity: 1 } : { y: titleNumber > index ? -150 : 150, opacity: 0 }}
+                  initial={false}
+                  animate={titleNumber === index ? { y: 0, opacity: 1 } : {
+                    y: (titleNumber > index && !(titleNumber === titles.length - 1 && index === 0)) || (titleNumber === 0 && index === titles.length - 1) ? -150 : 150,
+                    opacity: 0
+                  }}
                   transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 50 }}
                 >
                   {title}

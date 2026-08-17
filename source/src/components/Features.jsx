@@ -4,21 +4,24 @@ import { BarChart3, CheckCircle2, Wallet } from 'lucide-react';
 const featureDefinitions = [
   {
     id: 'claim-monthly-financial-summary',
-    title: "Your Property's Finances at a Glance",
+    title: 'Monthly financial summaries',
+    benefits: ['Monthly income', 'Monthly expenses', 'Net income from property transactions'],
     icon: Wallet,
     image: '/img/feature-financial-summary.png',
     alt: 'ManageState monthly financial summary screen'
   },
   {
     id: 'claim-property-document-storage',
-    title: 'Centralize All Your Property Details',
+    title: 'Property document storage',
+    benefits: ['Upload documents for a property', 'Documents for a property', 'Save document metadata'],
     icon: CheckCircle2,
     image: '/img/feature-document-storage.png',
     alt: 'ManageState property document storage screen'
   },
   {
     id: 'claim-xlsx-data-export',
-    title: 'Make Data Driven Decisions',
+    title: 'XLSX data exports',
+    benefits: ['Property and transaction data as XLSX', 'Recurring-item data as XLSX', 'Monthly-summary data as XLSX'],
     icon: BarChart3,
     image: '/img/feature-data-export.png',
     alt: 'ManageState data export screen'
@@ -56,7 +59,12 @@ export default function Features({ claims = [] }) {
                   <h3 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">{feature.title}</h3>
                   <p className="text-lg text-gray-600 leading-relaxed">{feature.description}</p>
                   <ul className="space-y-4">
-                    <li className="flex items-center gap-3 text-gray-700 font-medium"><CheckCircle2 size={20} className="text-green-500 flex-shrink-0" aria-hidden="true" />Verified product capability</li>
+                    {feature.benefits.map((benefit) => (
+                      <li key={benefit} className="flex items-center gap-3 text-gray-700 font-medium">
+                        <CheckCircle2 size={20} className="text-green-500 flex-shrink-0" aria-hidden="true" />
+                        {benefit}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className="flex-1 relative flex items-center justify-center">

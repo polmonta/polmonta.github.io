@@ -10,6 +10,8 @@ import RelatedContent from '../components/content/RelatedContent.astro';
 import { buildArticleSchema, buildBreadcrumbListSchema } from '../lib/schema.js';
 import { COLLECTION_LABELS } from '../lib/acquisition.js';
 import { buildAppStoreUrl } from '../lib/app-store.js';
+import reviews from '../data/evidence/app-store-reviews.json';
+import testimonials from '../data/evidence/customer-testimonials.json';
 
 const { entry, path } = Astro.props;
 const { data } = entry;
@@ -48,6 +50,7 @@ const pageMeta = {
   schemas
 };
 const appStoreUrl = buildAppStoreUrl('website-home', import.meta.env.PUBLIC_APPLE_PROVIDER_TOKEN);
+const showTestimonials = reviews.length > 0 || testimonials.length > 0;
 
 const updatedLabel = new Intl.DateTimeFormat('en-US', {
   timeZone: 'UTC',
@@ -58,7 +61,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 ---
 
 <BaseLayout {...pageMeta}>
-  <Navbar slot="header" client:load appStoreUrl={appStoreUrl} pagePath={path} />
+  <Navbar slot="header" client:load appStoreUrl={appStoreUrl} pagePath={path} showTestimonials={showTestimonials} />
 
   <article class="acquisition-article acquisition-article--legacy">
     <div class="site-container acquisition-article__inner">
@@ -95,7 +98,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
     </div>
   </article>
 
-  <Footer slot="footer" client:load appStoreUrl={appStoreUrl} pagePath={path} />
+  <Footer slot="footer" appStoreUrl={appStoreUrl} pagePath={path} showTestimonials={showTestimonials} />
 </BaseLayout>
 
 <style>

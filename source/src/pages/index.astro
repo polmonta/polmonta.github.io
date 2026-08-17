@@ -30,6 +30,7 @@ const verifiedEvidence = selectVerifiedEvidence(
   validateBaselineData(baselineData)
 );
 const hasEvidence = Object.values(verifiedEvidence).some((collection) => collection.length > 0);
+const hasTestimonials = verifiedEvidence.reviews.length > 0;
 const schemas = [
   buildOrganizationSchema(),
   buildSoftwareApplicationSchema({ reviews: verifiedEvidence.reviews })
@@ -38,7 +39,7 @@ const appStoreUrl = buildAppStoreUrl('website-home', import.meta.env.PUBLIC_APPL
 ---
 
 <BaseLayout {...pageMeta} schemas={schemas}>
-  <Navbar slot="header" client:load appStoreUrl={appStoreUrl} pagePath="/" isHomepage />
+  <Navbar slot="header" client:load appStoreUrl={appStoreUrl} pagePath="/" isHomepage showTestimonials={hasTestimonials} />
 
   <Hero client:load appStoreUrl={appStoreUrl} pagePath="/" />
 
@@ -54,5 +55,5 @@ const appStoreUrl = buildAppStoreUrl('website-home', import.meta.env.PUBLIC_APPL
 
   <FinalCta />
 
-  <Footer slot="footer" client:load isHomepage appStoreUrl={appStoreUrl} pagePath="/" />
+  <Footer slot="footer" isHomepage appStoreUrl={appStoreUrl} pagePath="/" showTestimonials={hasTestimonials} />
 </BaseLayout>

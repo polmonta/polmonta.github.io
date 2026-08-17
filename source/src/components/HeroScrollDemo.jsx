@@ -11,7 +11,8 @@ export function HeroScrollDemo() {
             width="1024"
             height="540"
             className="mx-auto rounded-2xl object-cover h-full w-full scale-110"
-            loading="lazy"
+            loading="eager"
+            fetchPriority="high"
             decoding="async"
             draggable={false}
           />
