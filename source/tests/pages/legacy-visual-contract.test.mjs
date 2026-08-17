@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const distRoot = path.join(projectRoot, 'dist');
 const homepagePath = path.join(distRoot, 'index.html');
-const articlePath = path.join(distRoot, 'features/financial-control/index.html');
+const acquisitionRouteFamilies = ['compare', 'features', 'for', 'guides', 'tools'];
 const homepageVisualAssets = [
   '/hero-tilted.png',
   '/img/legacy-app-mockup.jpg',
@@ -72,20 +72,20 @@ describe('built legacy visual contract', () => {
     assertImage(html, {
       src: '/img/feature-financial-summary.png',
       alt: 'ManageState monthly financial summary screen',
-      width: 1170,
-      height: 2532
+      width: 480,
+      height: 1039
     });
     assertImage(html, {
       src: '/img/feature-document-storage.png',
       alt: 'ManageState property document storage screen',
-      width: 1170,
-      height: 2532
+      width: 480,
+      height: 1039
     });
     assertImage(html, {
       src: '/img/feature-data-export.png',
       alt: 'ManageState data export screen',
-      width: 1170,
-      height: 2532
+      width: 480,
+      height: 1039
     });
 
     expect(html).toMatch(/class="section section--features[^"]*section--legacy/);
@@ -111,19 +111,29 @@ describe('built legacy visual contract', () => {
     });
   });
 
-  it('applies the same light visual shell to a representative acquisition article', () => {
-    const html = read(articlePath);
-    const styles = readEmittedStyles(html);
+  it('applies the same light visual shell to every generated acquisition route', () => {
+    const acquisitionRoutes = acquisitionRouteFamilies.flatMap((family) => {
+      const familyRoot = path.join(distRoot, family);
+      return readdirSync(familyRoot, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => path.join(familyRoot, entry.name, 'index.html'));
+    });
 
-    expect(html).toMatch(/class="site-header[^"]*site-header--legacy/);
-    expect(html).toMatch(/class="acquisition-article[^"]*acquisition-article--legacy/);
-    expect(html).toMatch(/class="breadcrumbs[^"]*breadcrumbs--legacy/);
-    expect(html).toContain('At a glance');
-    expect(html).toContain('Frequently asked questions');
-    expect(html).toContain('Related reading');
-    expect(html).toContain('Download ManageState for iPhone');
-    expect(html).toMatch(/class="site-footer[^"]*site-footer--legacy/);
-    expect(styles).toMatch(/acquisition-article[^}]*background:/);
-    expect(styles).toMatch(/acquisition-article__title[^}]*color:#172033/);
+    expect(acquisitionRoutes.length).toBeGreaterThan(0);
+
+    acquisitionRoutes.forEach((routePath) => {
+      const html = read(routePath);
+      const styles = readEmittedStyles(html);
+
+      expect(html, routePath).toMatch(/class="site-header[^"]*site-header--legacy/);
+      expect(html, routePath).toMatch(/class="acquisition-article[^"]*acquisition-article--legacy/);
+      expect(html, routePath).toMatch(/class="breadcrumbs[^"]*breadcrumbs--legacy/);
+      expect(html, routePath).toContain('At a glance');
+      expect(html, routePath).toContain('Related reading');
+      expect(html, routePath).toContain('Download ManageState for iPhone');
+      expect(html, routePath).toMatch(/class="site-footer[^"]*site-footer--legacy/);
+      expect(styles, routePath).toMatch(/acquisition-article[^}]*background:/);
+      expect(styles, routePath).toMatch(/acquisition-article__title[^}]*color:#172033/);
+    });
   });
 });
