@@ -35,3 +35,16 @@ test('Pages workflow builds and verifies source/dist', () => {
   assert.ok(existsSync(resolve(sourceRoot, '../CNAME')));
   assert.ok(existsSync(resolve(sourceRoot, '../.nojekyll')));
 });
+
+test('repository guidance names source as the only editable site directory', () => {
+  const rootReadme = readFileSync(resolve(sourceRoot, '../README.md'), 'utf8');
+  const agentGuide = readFileSync(resolve(sourceRoot, '../AGENTS.md'), 'utf8');
+  const sourceReadme = readSourceFile('README.md');
+
+  for (const document of [rootReadme, agentGuide, sourceReadme]) {
+    assert.match(document, /polmonta\/polmonta\.github\.io/);
+    assert.match(document, /source\//);
+    assert.match(document, /npm run verify/);
+  }
+  assert.match(agentGuide, /Do not add a Git submodule/);
+});
