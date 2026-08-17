@@ -25,8 +25,10 @@ const APP_STORE_ID = '6751497970';
 const APPROVED_CONSENT_STATUSES = new Set(['approved', 'consented', 'granted']);
 
 const scriptPath = fileURLToPath(import.meta.url);
-const landingPageRoot = path.resolve(path.dirname(scriptPath), '../..');
-const repositoryRoot = path.resolve(landingPageRoot, '..');
+const applicationRoot = path.resolve(path.dirname(scriptPath), '../..');
+const repositoryRoot = path.resolve(applicationRoot, '..');
+const publicRoot = path.join(applicationRoot, 'public');
+const publicAssetPrefix = `${path.relative(repositoryRoot, publicRoot)}/`;
 
 function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
@@ -292,8 +294,8 @@ function validateScreenshots(screenshots, claims, errors) {
       && !assetPath.startsWith('/')
       && !assetPath.startsWith('./')
       && !assetPath.includes('..')
-      && assetPath.startsWith('landing-page/public/')
-      && resolvedAssetPath.startsWith(`${path.join(repositoryRoot, 'landing-page/public')}${path.sep}`)
+      && assetPath.startsWith(publicAssetPrefix)
+      && resolvedAssetPath.startsWith(`${publicRoot}${path.sep}`)
       && fs.existsSync(resolvedAssetPath)
       && fs.statSync(resolvedAssetPath).isFile();
     if (!hasPublicAssetPath) {
@@ -377,7 +379,7 @@ export function validateBaselineData(input = {}) {
 
 
 function readJson(relativePath) {
-  return JSON.parse(fs.readFileSync(path.join(landingPageRoot, relativePath), 'utf8'));
+  return JSON.parse(fs.readFileSync(path.join(applicationRoot, relativePath), 'utf8'));
 }
 
 function runCli() {

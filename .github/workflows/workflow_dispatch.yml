@@ -20,6 +20,7 @@ jobs:
 
     env:
       PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.PUBLIC_PLAUSIBLE_DOMAIN }}
+      PUBLIC_APPLE_PROVIDER_TOKEN: ${{ vars.PUBLIC_APPLE_PROVIDER_TOKEN }}
 
     steps:
       - name: Checkout
@@ -28,7 +29,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.13.0
           cache: npm
           cache-dependency-path: ./source/package-lock.json
 
@@ -36,9 +37,9 @@ jobs:
         working-directory: ./source
         run: npm ci
 
-      - name: Build
+      - name: Verify and build
         working-directory: ./source
-        run: npm run build
+        run: npm run verify
 
       - name: Preserve GitHub Pages metadata
         run: |

@@ -154,7 +154,7 @@ test('requires complete verified product claim provenance', () => {
 test('requires existing public assets and supported claim IDs for screenshots', () => {
   const complete = {
     id: 's1',
-    assetPath: 'landing-page/public/hero-tilted.png',
+    assetPath: 'source/public/hero-tilted.png',
     altText: 'ManageState property dashboard showing monthly financial totals',
     capturedAppVersion: '1.0.0',
     approvalDate: '2026-08-05',
@@ -177,7 +177,7 @@ test('requires existing public assets and supported claim IDs for screenshots', 
   assert.deepEqual(errors, []);
 
   for (const [field, value] of [
-    ['assetPath', 'landing-page/public/not-present.png'],
+    ['assetPath', 'source/public/not-present.png'],
     ['altText', 'image'],
     ['capturedAppVersion', ''],
     ['approvalDate', 'not-a-date'],

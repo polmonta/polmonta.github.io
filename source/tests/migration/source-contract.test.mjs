@@ -23,3 +23,15 @@ test('GitHub Pages source is the canonical Astro SEO application', () => {
   assert.ok(existsSync(resolve(sourceRoot, 'src/pages/tools/[slug].astro')));
   assert.ok(existsSync(resolve(sourceRoot, 'src/content/features/financial-control.md')));
 });
+
+test('Pages workflow builds and verifies source/dist', () => {
+  const workflow = readFileSync(resolve(sourceRoot, '../.github/workflows/workflow_dispatch.yml'), 'utf8');
+
+  assert.match(workflow, /node-version:\s*22\.13\.0/);
+  assert.match(workflow, /PUBLIC_PLAUSIBLE_DOMAIN:\s*\$\{\{ vars\.PUBLIC_PLAUSIBLE_DOMAIN \}\}/);
+  assert.match(workflow, /PUBLIC_APPLE_PROVIDER_TOKEN:\s*\$\{\{ vars\.PUBLIC_APPLE_PROVIDER_TOKEN \}\}/);
+  assert.match(workflow, /working-directory:\s*\.\/source[\s\S]*run:\s*npm run verify/);
+  assert.match(workflow, /path:\s*\.\/source\/dist/);
+  assert.ok(existsSync(resolve(sourceRoot, '../CNAME')));
+  assert.ok(existsSync(resolve(sourceRoot, '../.nojekyll')));
+});
