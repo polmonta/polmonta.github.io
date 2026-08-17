@@ -1,6 +1,8 @@
 import { Linkedin } from 'lucide-react';
 
-export default function Footer({ isHomepage = false }) {
+const defaultAppStoreUrl = 'https://apps.apple.com/app/managestate/id6751497970';
+
+export default function Footer({ isHomepage = false, appStoreUrl = defaultAppStoreUrl, pagePath = '/' }) {
   const sectionHref = (section) => (isHomepage ? `#${section}` : `/#${section}`);
 
   return (
@@ -19,15 +21,12 @@ export default function Footer({ isHomepage = false }) {
             <ul className="space-y-2">
               <li><a href={sectionHref('features')} className="hover:text-white transition-colors">Features</a></li>
               <li><a href={sectionHref('testimonials')} className="hover:text-white transition-colors">Testimonials</a></li>
+              <li><a href={appStoreUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" data-app-store-click data-page-path={pagePath} data-content-cluster="home" data-cta-placement="footer" data-language="en" data-campaign="website-home">Download</a></li>
             </ul>
           </div>
           <div>
             <h2 className="text-white font-semibold mb-4 text-base">Legal</h2>
             <ul className="space-y-2"><li><a href="/privacy/" className="hover:text-white transition-colors">Privacy Policy</a></li><li><a href="/terms/" className="hover:text-white transition-colors">Terms of Service</a></li></ul>
-          </div>
-          <div>
-            <h2 className="text-white font-semibold mb-4 text-base">Support</h2>
-            <ul className="space-y-2"><li><a href="mailto:support@managestate.app" className="hover:text-white transition-colors">Contact Us</a></li></ul>
           </div>
         </div>
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">

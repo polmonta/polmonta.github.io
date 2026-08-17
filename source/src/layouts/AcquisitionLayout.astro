@@ -95,7 +95,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
     </div>
   </article>
 
-  <Footer slot="footer" client:load />
+  <Footer slot="footer" client:load appStoreUrl={appStoreUrl} pagePath={path} />
 </BaseLayout>
 
 <style>

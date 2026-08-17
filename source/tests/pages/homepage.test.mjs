@@ -89,12 +89,13 @@ describe('built homepage contract', () => {
     expect(applicationSchema).not.toHaveProperty('aggregateRating');
     expect(headings).toHaveLength(1);
     expect(normalizeText(headings[0][1])).toMatch(/^Property management for independent landlords\./);
-    expect(primaryCtas).toHaveLength(4);
+    expect(primaryCtas).toHaveLength(5);
     expect(primaryCtas.map(({ content }) => normalizeText(content))).toEqual([
       'Download App',
       'Download for iOS',
       expectedPrimaryCta,
-      expectedPrimaryCta
+      expectedPrimaryCta,
+      'Download'
     ]);
     primaryCtas.forEach(({ href }) => {
       expect(href).toBeTruthy();
@@ -104,7 +105,8 @@ describe('built homepage contract', () => {
       'nav',
       'hero',
       'evidence',
-      'final'
+      'final',
+      'footer'
     ]);
     expect(primaryCtas.every(({ tag }) => (
       tag.includes('data-app-store-click')
