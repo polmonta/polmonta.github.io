@@ -5,17 +5,23 @@ const featureDefinitions = [
   {
     id: 'claim-monthly-financial-summary',
     title: 'Monthly financial summaries',
-    marker: '01'
+    marker: '01',
+    image: '/img/feature-financial-summary.png',
+    alt: 'ManageState monthly financial summary screen'
   },
   {
     id: 'claim-property-document-storage',
     title: 'Property document storage',
-    marker: '02'
+    marker: '02',
+    image: '/img/feature-document-storage.png',
+    alt: 'ManageState property document storage screen'
   },
   {
     id: 'claim-xlsx-data-export',
     title: 'XLSX data exports',
-    marker: '03'
+    marker: '03',
+    image: '/img/feature-data-export.png',
+    alt: 'ManageState data export screen'
   }
 ];
 
@@ -27,7 +33,7 @@ const features = featureDefinitions
   .filter((feature) => feature.description);
 ---
 
-<section id="features" class="section section--features" aria-labelledby="features-title">
+<section id="features" class="section section--features section--legacy" aria-labelledby="features-title">
   <div class="site-container">
     <div class="section-header">
       <p class="eyebrow">A calmer operating system for your rentals</p>
@@ -40,10 +46,15 @@ const features = featureDefinitions
     {features.length > 0 && (
       <div class="features-grid">
         {features.map((feature) => (
-          <article class="feature-card">
-            <span class="feature-card__number" aria-hidden="true">{feature.marker}</span>
-            <h3>{feature.title}</h3>
-            <p>{feature.description}</p>
+          <article class:list={['feature-card', { 'feature-card--reverse': Number(feature.marker) % 2 === 0 }]}>
+            <div class="feature-card__content">
+              <span class="feature-card__number" aria-hidden="true">{feature.marker}</span>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
+            <figure class="feature-card__visual">
+              <img src={feature.image} alt={feature.alt} width="1170" height="2532" loading="lazy" decoding="async" />
+            </figure>
           </article>
         ))}
       </div>

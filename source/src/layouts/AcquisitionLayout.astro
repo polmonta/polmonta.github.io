@@ -58,7 +58,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 <BaseLayout {...pageMeta}>
   <Header slot="header" />
 
-  <article class="acquisition-article">
+  <article class="acquisition-article acquisition-article--legacy">
     <div class="site-container acquisition-article__inner">
       <Breadcrumbs cluster={data.cluster} title={data.h1} />
 
@@ -99,6 +99,9 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 <style>
   .acquisition-article {
     padding: 3.5rem 0 6rem;
+    background:
+      radial-gradient(circle at 92% 2%, rgba(233, 213, 255, 0.38), transparent 24rem),
+      #ffffff;
   }
 
   .acquisition-article__inner {
@@ -107,7 +110,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 
   .acquisition-article__title {
     margin-top: 1.5rem;
-    color: #ffffff;
+    color: #172033;
     font-size: clamp(2rem, 4.5vw, 3.35rem);
     font-weight: 730;
     letter-spacing: -0.05em;
@@ -116,28 +119,28 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 
   .acquisition-article__opening {
     margin-top: 1.25rem;
-    color: #d6dce6;
+    color: #526176;
     font-size: 1.125rem;
     line-height: 1.7;
   }
 
   .acquisition-article__updated {
     margin-top: 1rem;
-    color: #8a94a6;
+    color: #64748b;
     font-size: 0.875rem;
     line-height: 1.5;
   }
 
   .acquisition-article__body {
     margin-top: 2.5rem;
-    color: #c3ccd9;
+    color: #475569;
     font-size: 1rem;
     line-height: 1.7;
   }
 
   .acquisition-article__body h2 {
     margin-top: 2.25rem;
-    color: #ffffff;
+    color: #172033;
     font-size: 1.5rem;
     font-weight: 680;
     letter-spacing: -0.02em;
@@ -146,7 +149,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
 
   .acquisition-article__body h3 {
     margin-top: 1.5rem;
-    color: #f5f7fb;
+    color: #334155;
     font-size: 1.1rem;
     line-height: 1.3;
   }
@@ -167,7 +170,7 @@ const updatedLabel = new Intl.DateTimeFormat('en-US', {
   }
 
   .acquisition-article__body a {
-    color: #8ab4f8;
+    color: #1d4ed8;
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }

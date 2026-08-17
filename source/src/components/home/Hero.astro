@@ -2,7 +2,7 @@
 import AppStoreLink from '../AppStoreLink.astro';
 ---
 
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero hero--legacy" aria-labelledby="hero-title">
   <div class="site-container hero__inner">
     <div class="hero__content">
       <p class="eyebrow">Straightforward property management for independent landlords</p>
@@ -25,13 +25,24 @@ import AppStoreLink from '../AppStoreLink.astro';
       </div>
     </div>
 
-    <figure class="hero__visual">
+    <figure class="hero__visual hero__visual--screenshot">
       <img
         src="/hero-tilted.png"
         alt="ManageState dashboard showing rental property finances and portfolio performance"
         width="1024"
-        height="512"
+        height="540"
         loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        draggable="false"
+      />
+      <img
+        class="hero__legacy-shot"
+        src="/img/legacy-app-mockup.jpg"
+        alt="ManageState app screen for tracking rental property finances"
+        width="1024"
+        height="1024"
+        loading="lazy"
         decoding="async"
         draggable="false"
       />
