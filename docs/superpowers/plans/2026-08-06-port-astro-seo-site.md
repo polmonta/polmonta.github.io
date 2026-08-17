@@ -122,17 +122,71 @@ git add -A source
 git commit -m "feat(site): port Astro SEO site to Pages source"
 ```
 
-### Task 2: Make GitHub Actions verify and deploy the Astro output
+### Task 2: Make the Pages source self-validating and verify/deploy the Astro output
 
 **Files:**
+- Modify: `source/scripts/seo/validate-baseline-data.mjs`
+- Modify: `source/tests/seo/validate-baseline-data.test.mjs`
 - Modify: `.github/workflows/workflow_dispatch.yml`
 - Test: `source/tests/migration/source-contract.test.mjs`
 
 **Interfaces:**
-- Consumes: `source/package.json` scripts from Task 1 and root `CNAME`/`.nojekyll`.
-- Produces: a Pages workflow that installs Node.js `22.13.0`, runs the complete `npm run verify` gate from `source/`, preserves Pages metadata, and uploads `source/dist/`.
+- Consumes: the migrated application-root layout where the validator lives under `source/scripts/seo/` and public assets live under `source/public/`.
+- Produces: a validator that resolves source-relative JSON and public assets from its own application root, plus a Pages workflow that installs Node.js `22.13.0`, runs the complete `npm run verify` gate from `source/`, preserves Pages metadata, and uploads `source/dist/`.
 
-- [ ] **Step 1: Extend the failing contract test to cover deployment metadata and workflow requirements**
+- [ ] **Step 1: Change the baseline test fixture to the Pages repository path**
+
+In `source/tests/seo/validate-baseline-data.test.mjs`, change the valid screenshot fixture's asset path from:
+
+```js
+assetPath: 'landing-page/public/hero-tilted.png',
+```
+
+to:
+
+```js
+assetPath: 'source/public/hero-tilted.png',
+```
+
+Leave the invalid `source/public/not-present.png` case in the same test so the test still proves missing assets are rejected.
+
+- [ ] **Step 2: Run the focused baseline test and verify it fails before the validator fix**
+
+Run:
+
+```bash
+cd /Users/polmontanera/Desktop/polmonta-github-pages-astro-migration/source
+node --test tests/seo/validate-baseline-data.test.mjs
+```
+
+Expected: the screenshot-assets test fails because the inherited validator only accepts `landing-page/public/` and resolves it against the repository root.
+
+- [ ] **Step 3: Resolve validator paths from the application root**
+
+In `source/scripts/seo/validate-baseline-data.mjs`:
+
+1. Rename `landingPageRoot` to `applicationRoot`, keeping its value as `path.resolve(path.dirname(scriptPath), '../..')`.
+2. Keep `repositoryRoot` as the parent of `applicationRoot`.
+3. Define `publicRoot = path.join(applicationRoot, 'public')` and `publicAssetPrefix = `${path.relative(repositoryRoot, publicRoot)}/``.
+4. Resolve JSON files with `applicationRoot` rather than `landingPageRoot`.
+5. In `validateScreenshots`, replace the hard-coded `landing-page/public/` and `path.join(repositoryRoot, 'landing-page/public')` checks with `publicAssetPrefix` and `publicRoot`, while retaining the existing traversal/absolute-path protections and file existence check.
+
+The resulting validator must accept `source/public/hero-tilted.png` in this repository and must reject paths outside the application public directory.
+
+- [ ] **Step 4: Run the baseline tests and CLI gate**
+
+Run:
+
+```bash
+cd /Users/polmontanera/Desktop/polmonta-github-pages-astro-migration/source
+node --test tests/seo/validate-baseline-data.test.mjs
+npm run test:baseline
+npm run check:baseline
+```
+
+Expected: all commands pass, including the valid `source/public/hero-tilted.png` fixture and the invalid-path cases.
+
+- [ ] **Step 5: Extend the failing contract test to cover deployment metadata and workflow requirements**
 
 Add this test to `source/tests/migration/source-contract.test.mjs` before changing the workflow:
 
@@ -150,7 +204,7 @@ test('Pages workflow builds and verifies source/dist', () => {
 });
 ```
 
-- [ ] **Step 2: Run the workflow contract test and verify it fails**
+- [ ] **Step 6: Run the workflow contract test and verify it fails**
 
 Run:
 
@@ -159,9 +213,9 @@ cd /Users/polmontanera/Desktop/polmonta-github-pages-astro-migration/source
 node --test tests/migration/source-contract.test.mjs
 ```
 
-Expected: the source contract passes, but the workflow test fails because the workflow still uses Node `22`, does not expose the optional Apple provider variable, and runs only `npm run build`.
+Expected: the source and baseline tests pass, but the workflow assertion fails because the workflow still uses Node `22`, does not expose the optional Apple provider variable, and runs only `npm run build`.
 
-- [ ] **Step 3: Update the workflow with the exact deployment gates**
+- [ ] **Step 7: Update the workflow with the exact deployment gates**
 
 In `.github/workflows/workflow_dispatch.yml`:
 
@@ -171,7 +225,7 @@ In `.github/workflows/workflow_dispatch.yml`:
 4. Leave the `Preserve GitHub Pages metadata` step copying root `CNAME` and `.nojekyll` into `source/dist/`.
 5. Leave the Pages artifact path as `./source/dist`.
 
-- [ ] **Step 4: Run the workflow contract test**
+- [ ] **Step 8: Run the workflow contract test**
 
 Run:
 
@@ -182,11 +236,11 @@ node --test tests/migration/source-contract.test.mjs
 
 Expected: both repository and workflow contract tests pass.
 
-- [ ] **Step 5: Commit the deployment workflow**
+- [ ] **Step 9: Commit the validator and deployment workflow**
 
 ```bash
 cd /Users/polmontanera/Desktop/polmonta-github-pages-astro-migration
-git add .github/workflows/workflow_dispatch.yml source/tests/migration/source-contract.test.mjs
+git add source/scripts/seo/validate-baseline-data.mjs source/tests/seo/validate-baseline-data.test.mjs .github/workflows/workflow_dispatch.yml source/tests/migration/source-contract.test.mjs
 git commit -m "ci(site): verify Astro output before Pages deploy"
 ```
 
