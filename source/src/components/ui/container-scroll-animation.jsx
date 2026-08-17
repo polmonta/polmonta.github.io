@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { useScroll, useTransform, motion as Motion } from "framer-motion";
+import { useScroll, useTransform, useReducedMotion, motion as Motion } from "framer-motion";
 
 export const ContainerScroll = ({
     titleComponent,
@@ -11,6 +11,7 @@ export const ContainerScroll = ({
         target: containerRef,
     });
     const [isMobile, setIsMobile] = useState(false);
+    const shouldReduceMotion = useReducedMotion();
 
     useEffect(() => {
         const checkMobile = () => {
@@ -42,8 +43,8 @@ export const ContainerScroll = ({
                     perspective: "1000px",
                 }}
             >
-                <Header translate={translate} titleComponent={titleComponent} />
-                <Card rotate={rotate} translate={translate} scale={scale}>
+                <Header translate={translate} titleComponent={titleComponent} reducedMotion={shouldReduceMotion} />
+                <Card rotate={rotate} translate={translate} scale={scale} reducedMotion={shouldReduceMotion}>
                     {children}
                 </Card>
             </div>
@@ -51,11 +52,11 @@ export const ContainerScroll = ({
     );
 };
 
-export const Header = ({ translate, titleComponent }) => {
+export const Header = ({ translate, titleComponent, reducedMotion = false }) => {
     return (
         <Motion.div
             style={{
-                translateY: translate,
+                ...(reducedMotion ? {} : { translateY: translate }),
             }}
             className="div max-w-5xl mx-auto text-center"
         >
@@ -68,12 +69,12 @@ export const Card = ({
     rotate,
     scale,
     children,
+    reducedMotion = false,
 }) => {
     return (
         <Motion.div
             style={{
-                rotateX: rotate,
-                scale,
+                ...(reducedMotion ? {} : { rotateX: rotate, scale }),
                 boxShadow:
                     "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
             }}

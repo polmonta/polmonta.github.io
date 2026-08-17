@@ -2,7 +2,7 @@
 export default {
     content: [
         "./index.html",
-        "./src/**/*.{js,ts,jsx,tsx}",
+        "./src/**/*.{astro,js,ts,jsx,tsx}",
     ],
     theme: {
         extend: {
@@ -10,12 +10,12 @@ export default {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
+                    DEFAULT: "var(--primary)",
+                    foreground: "#ffffff",
                 },
                 secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
+                    DEFAULT: "#f1f5f9",
+                    foreground: "#172033",
                 },
                 muted: {
                     DEFAULT: "hsl(var(--muted))",
@@ -31,9 +31,10 @@ export default {
                 },
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
+                ring: "var(--ring)",
             },
             animation: {
+                blob: "blob 7s infinite",
                 "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
                 "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
                 "slide": "slide var(--speed) ease-in-out infinite alternate",
@@ -41,6 +42,12 @@ export default {
                 "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
             },
             keyframes: {
+                blob: {
+                    "0%": { transform: "translate(0px, 0px) scale(1)" },
+                    "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                    "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                    "100%": { transform: "translate(0px, 0px) scale(1)" },
+                },
                 "border-beam": {
                     "100%": {
                         "offset-distance": "100%",

@@ -6,9 +6,12 @@ const isHomepage = Astro.url.pathname === '/';
 const sectionHref = (section) => (isHomepage ? `#${section}` : `/#${section}`);
 ---
 
-<div class="site-header">
+<div class="site-header site-header--legacy">
   <div class="site-container site-header__inner">
-    <a class="site-brand" href="/" aria-label="ManageState home">ManageState</a>
+    <a class="site-brand" href="/" aria-label="ManageState home">
+      <img class="site-brand__logo" src="/img/managestate-logo.png" alt="ManageState logo" width="40" height="40" />
+      <span>ManageState</span>
+    </a>
 
     <nav class="site-nav" aria-label="Primary navigation">
       <a href={sectionHref('features')}>Features</a>

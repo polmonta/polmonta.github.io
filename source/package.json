@@ -8,6 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest run",
+    "test:visual": "npm run build && vitest run tests/pages/legacy-visual-contract.test.mjs",
+    "test:direct-react": "npm run build && vitest run tests/pages/direct-react-component-port.test.mjs",
     "lint": "eslint .",
     "check:baseline": "node scripts/seo/validate-baseline-data.mjs",
     "check:content": "node scripts/seo/validate-content.mjs",

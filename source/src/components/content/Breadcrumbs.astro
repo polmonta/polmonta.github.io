@@ -5,7 +5,7 @@ const { cluster, title } = Astro.props;
 const collectionLabel = COLLECTION_LABELS[cluster] ?? cluster;
 ---
 
-<nav class="breadcrumbs" aria-label="Breadcrumb">
+<nav class="breadcrumbs breadcrumbs--legacy" aria-label="Breadcrumb">
   <ol class="breadcrumbs__list">
     <li class="breadcrumbs__item">
       <a class="breadcrumbs__link" href="/">Home</a>
@@ -21,7 +21,7 @@ const collectionLabel = COLLECTION_LABELS[cluster] ?? cluster;
 
 <style>
   .breadcrumbs {
-    color: #7f8a99;
+    color: #64748b;
     font-size: 0.8rem;
     line-height: 1.5;
   }
@@ -43,23 +43,23 @@ const collectionLabel = COLLECTION_LABELS[cluster] ?? cluster;
   }
 
   .breadcrumbs__item + .breadcrumbs__item::before {
-    color: #556070;
+    color: #94a3b8;
     content: "/";
   }
 
   .breadcrumbs__link {
-    color: #8ab4f8;
+    color: #1d4ed8;
     text-decoration: none;
   }
 
   .breadcrumbs__link:hover,
   .breadcrumbs__link:focus-visible {
-    color: #ffffff;
+    color: #172033;
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 
   .breadcrumbs__section {
-    color: #a4adba;
+    color: #475569;
   }
 </style>

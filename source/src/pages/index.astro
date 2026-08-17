@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/site/Header.astro';
-import Footer from '../components/site/Footer.astro';
-import Hero from '../components/home/Hero.astro';
+import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx';
+import Testimonials from '../components/Testimonials.jsx';
+import Hero from '../components/Hero.jsx';
 import Evidence from '../components/home/Evidence.astro';
-import Features from '../components/home/Features.astro';
+import Features from '../components/Features.jsx';
 import Faq from '../components/home/Faq.astro';
 import FinalCta from '../components/home/FinalCta.astro';
 import site from '../data/site.json';
@@ -15,6 +16,7 @@ import screenshots from '../data/evidence/screenshots.json';
 import { selectVerifiedEvidence } from '../lib/evidence.js';
 import { buildOrganizationSchema, buildSoftwareApplicationSchema } from '../lib/schema.js';
 import { validateBaselineData } from '../../scripts/seo/validate-baseline-data.mjs';
+import { buildAppStoreUrl } from '../lib/app-store.js';
 
 const pageMeta = {
   title: 'Property Management App for Small Landlords | ManageState',
@@ -28,24 +30,30 @@ const verifiedEvidence = selectVerifiedEvidence(
   validateBaselineData(baselineData)
 );
 const hasEvidence = Object.values(verifiedEvidence).some((collection) => collection.length > 0);
+const hasTestimonials = verifiedEvidence.reviews.length > 0;
 const schemas = [
   buildOrganizationSchema(),
   buildSoftwareApplicationSchema({ reviews: verifiedEvidence.reviews })
 ];
+const appStoreUrl = buildAppStoreUrl('website-home', import.meta.env.PUBLIC_APPLE_PROVIDER_TOKEN);
 ---
 
 <BaseLayout {...pageMeta} schemas={schemas}>
-  <Header slot="header" showEvidence={hasEvidence} />
+  <Navbar slot="header" client:load appStoreUrl={appStoreUrl} pagePath="/" isHomepage showTestimonials={hasTestimonials} />
 
-  <Hero />
+  <Hero client:load appStoreUrl={appStoreUrl} pagePath="/" />
 
   {hasEvidence && <Evidence {...verifiedEvidence} />}
 
-  <Features claims={verifiedEvidence.claims} />
+  <Features client:visible claims={verifiedEvidence.claims} />
+
+  {verifiedEvidence.reviews.length > 0 && (
+    <Testimonials client:visible reviews={verifiedEvidence.reviews} />
+  )}
 
   <Faq claims={verifiedEvidence.claims} />
 
   <FinalCta />
 
-  <Footer slot="footer" />
+  <Footer slot="footer" isHomepage appStoreUrl={appStoreUrl} pagePath="/" showTestimonials={hasTestimonials} />
 </BaseLayout>
