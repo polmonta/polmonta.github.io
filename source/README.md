@@ -77,4 +77,4 @@ npm ci
 npm run verify
 ```
 
-This runs linting, baseline validation, both preserved Node suites, Vitest, the static build, dist validation, and the release-blocking Lighthouse check.
+This runs linting, baseline validation, both preserved Node suites, the migration contract test (`npm run test:migration`), Vitest, the static build, dist validation, and the release-blocking Lighthouse check.

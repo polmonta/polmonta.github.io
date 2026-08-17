@@ -13,9 +13,10 @@
     "check:content": "node scripts/seo/validate-content.mjs",
     "check:dist": "node scripts/seo/validate-dist.mjs",
     "check:lighthouse": "lhci autorun --config=lighthouserc.cjs",
-    "verify": "npm run lint && npm run check:baseline && npm run test:baseline && npm run test:app-store && npm run check:content && npm run build && npm test && npm run check:dist && npm run check:lighthouse",
+    "verify": "npm run lint && npm run check:baseline && npm run test:baseline && npm run test:app-store && npm run test:migration && npm run check:content && npm run build && npm test && npm run check:dist && npm run check:lighthouse",
     "test:baseline": "node --test tests/seo/validate-baseline-data.test.mjs",
-    "test:app-store": "node --test tests/seo/import-app-store-evidence.test.mjs"
+    "test:app-store": "node --test tests/seo/import-app-store-evidence.test.mjs",
+    "test:migration": "node --test tests/migration/source-contract.test.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",

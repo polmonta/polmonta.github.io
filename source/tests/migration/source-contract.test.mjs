@@ -14,7 +14,7 @@ test('GitHub Pages source is the canonical Astro SEO application', () => {
   const config = readSourceFile('astro.config.mjs');
 
   assert.equal(packageJson.scripts.build, 'astro build');
-  assert.equal(packageJson.scripts.verify, 'npm run lint && npm run check:baseline && npm run test:baseline && npm run test:app-store && npm run check:content && npm run build && npm test && npm run check:dist && npm run check:lighthouse');
+  assert.equal(packageJson.scripts.verify, 'npm run lint && npm run check:baseline && npm run test:baseline && npm run test:app-store && npm run test:migration && npm run check:content && npm run build && npm test && npm run check:dist && npm run check:lighthouse');
   assert.ok(packageJson.dependencies.astro);
   assert.ok(packageJson.dependencies['@astrojs/sitemap']);
   assert.ok(packageJson.dependencies['@astrojs/mdx']);
