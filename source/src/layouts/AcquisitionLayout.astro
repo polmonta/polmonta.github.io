@@ -1,0 +1,178 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+import AppStoreLink from '../components/AppStoreLink.astro';
+import Breadcrumbs from '../components/content/Breadcrumbs.astro';
+import SummaryBlock from '../components/content/SummaryBlock.astro';
+import VisibleFaq from '../components/content/VisibleFaq.astro';
+import RelatedContent from '../components/content/RelatedContent.astro';
+import { buildArticleSchema, buildBreadcrumbListSchema } from '../lib/schema.js';
+import { COLLECTION_LABELS } from '../lib/acquisition.js';
+
+const { entry, path } = Astro.props;
+const { data } = entry;
+
+const isGuide = data.cluster === 'guides';
+
+// Every nested acquisition page emits a BreadcrumbList schema matching the
+// visible breadcrumb (home, collection section, current page; design §7).
+// Guides are additionally Article-eligible: emit Article schema with the
+// visible updated date and the organization as author. FAQ schema is
+// intentionally omitted (see docs/seo/editorial-review.md), so only the
+// visible FAQ remains.
+const schemas = [
+  buildBreadcrumbListSchema({
+    path,
+    title: data.h1,
+    section: COLLECTION_LABELS[data.cluster] ?? data.cluster
+  }),
+  ...(isGuide
+    ? [
+        buildArticleSchema({
+          headline: data.h1,
+          description: data.description,
+          date: data.updatedAt,
+          path,
+          image: '/social/managestate-og.png'
+        })
+      ]
+    : [])
+];
+
+const pageMeta = {
+  title: data.title,
+  description: data.description,
+  path,
+  schemas
+};
+
+const updatedLabel = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'UTC',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(data.updatedAt);
+---
+
+<BaseLayout {...pageMeta}>
+  <Header slot="header" />
+
+  <article class="acquisition-article">
+    <div class="site-container acquisition-article__inner">
+      <Breadcrumbs cluster={data.cluster} title={data.h1} />
+
+      <h1 class="acquisition-article__title">{data.h1}</h1>
+
+      {isGuide && (
+        <p class="acquisition-article__updated">Last updated {updatedLabel}</p>
+      )}
+
+      <p class="acquisition-article__opening">{data.openingAnswer}</p>
+
+      <SummaryBlock summary={data.summary} />
+
+      <div class="acquisition-article__body">
+        <slot />
+      </div>
+
+      <VisibleFaq faqs={data.faqs} />
+
+      <RelatedContent related={data.related} />
+
+      <AppStoreLink
+        class="button button--primary button--large acquisition-article__cta"
+        campaign={data.campaign}
+        cluster={data.cluster}
+        placement="content"
+        language={data.lang}
+        pagePath={path}
+      >
+        Download ManageState for iPhone
+      </AppStoreLink>
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .acquisition-article {
+    padding: 3.5rem 0 6rem;
+  }
+
+  .acquisition-article__inner {
+    max-width: 46rem;
+  }
+
+  .acquisition-article__title {
+    margin-top: 1.5rem;
+    color: #ffffff;
+    font-size: clamp(2rem, 4.5vw, 3.35rem);
+    font-weight: 730;
+    letter-spacing: -0.05em;
+    line-height: 1.05;
+  }
+
+  .acquisition-article__opening {
+    margin-top: 1.25rem;
+    color: #d6dce6;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .acquisition-article__updated {
+    margin-top: 1rem;
+    color: #8a94a6;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .acquisition-article__body {
+    margin-top: 2.5rem;
+    color: #c3ccd9;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .acquisition-article__body h2 {
+    margin-top: 2.25rem;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 680;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .acquisition-article__body h3 {
+    margin-top: 1.5rem;
+    color: #f5f7fb;
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+
+  .acquisition-article__body p,
+  .acquisition-article__body ul,
+  .acquisition-article__body ol {
+    margin-top: 1rem;
+  }
+
+  .acquisition-article__body ul,
+  .acquisition-article__body ol {
+    padding-left: 1.5rem;
+  }
+
+  .acquisition-article__body li + li {
+    margin-top: 0.5rem;
+  }
+
+  .acquisition-article__body a {
+    color: #8ab4f8;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .acquisition-article__cta {
+    margin-top: 3rem;
+  }
+</style>

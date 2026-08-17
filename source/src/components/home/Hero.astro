@@ -1,0 +1,40 @@
+---
+import AppStoreLink from '../AppStoreLink.astro';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="site-container hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow">Straightforward property management for independent landlords</p>
+      <h1 id="hero-title">Rental property management, without spreadsheet chaos.</h1>
+      <p class="hero__lede">
+        Track rental income, expenses, documents, and property performance in one straightforward iPhone app for independent landlords.
+      </p>
+
+      <div class="hero__actions">
+        <AppStoreLink
+          class="button button--primary button--large"
+          campaign="website-home"
+          placement="hero"
+          cluster="home"
+          language="en"
+        >
+          Download ManageState for iPhone
+        </AppStoreLink>
+        <a class="button button--ghost button--large" href="#features">Explore features</a>
+      </div>
+    </div>
+
+    <figure class="hero__visual">
+      <img
+        src="/hero-tilted.png"
+        alt="ManageState dashboard showing rental property finances and portfolio performance"
+        width="1024"
+        height="512"
+        loading="eager"
+        decoding="async"
+        draggable="false"
+      />
+    </figure>
+  </div>
+</section>

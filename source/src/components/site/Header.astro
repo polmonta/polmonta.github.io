@@ -1,0 +1,29 @@
+---
+import AppStoreLink from '../AppStoreLink.astro';
+
+const { showEvidence = false } = Astro.props;
+const isHomepage = Astro.url.pathname === '/';
+const sectionHref = (section) => (isHomepage ? `#${section}` : `/#${section}`);
+---
+
+<div class="site-header">
+  <div class="site-container site-header__inner">
+    <a class="site-brand" href="/" aria-label="ManageState home">ManageState</a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href={sectionHref('features')}>Features</a>
+      {showEvidence && <a href={sectionHref('evidence')}>Evidence</a>}
+      <a href={sectionHref('faq')}>FAQ</a>
+    </nav>
+
+    <AppStoreLink
+      class="button button--primary button--small"
+      campaign="website-home"
+      placement="nav"
+      cluster="home"
+      language="en"
+    >
+      Download ManageState for iPhone
+    </AppStoreLink>
+  </div>
+</div>

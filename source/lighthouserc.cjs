@@ -1,0 +1,20 @@
+module.exports = {
+  ci: {
+    collect: {
+      staticDistDir: './dist',
+      numberOfRuns: 1
+    },
+    assert: {
+      assertions: {
+        'largest-contentful-paint': ['error', { maxNumericValue: 2500 }],
+        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],
+        'total-blocking-time': ['error', { maxNumericValue: 200 }]
+      }
+    },
+    upload: {
+      target: 'filesystem',
+      outputDir: './.lighthouseci'
+    }
+  }
+};
+// INP is field data and is monitored in Search Console rather than reproduced by Lighthouse CI.

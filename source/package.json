@@ -4,18 +4,26 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "deploy": "vite build && cp -R dist/* ../"
+    "check:baseline": "node scripts/seo/validate-baseline-data.mjs",
+    "check:content": "node scripts/seo/validate-content.mjs",
+    "check:dist": "node scripts/seo/validate-dist.mjs",
+    "check:lighthouse": "lhci autorun --config=lighthouserc.cjs",
+    "verify": "npm run lint && npm run check:baseline && npm run test:baseline && npm run test:app-store && npm run check:content && npm run build && npm test && npm run check:dist && npm run check:lighthouse",
+    "test:baseline": "node --test tests/seo/validate-baseline-data.test.mjs",
+    "test:app-store": "node --test tests/seo/import-app-store-evidence.test.mjs"
   },
   "dependencies": {
-    "@radix-ui/react-avatar": "^1.1.11",
-    "@radix-ui/react-slot": "^1.2.4",
-    "class-variance-authority": "^0.7.1",
+    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/react": "^6.0.2",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^7.1.6",
     "clsx": "^2.1.1",
-    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.554.0",
     "react": "^19.2.0",
@@ -24,19 +32,18 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@lhci/cli": "^0.15.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "autoprefixer": "^10.4.22",
+    "@vitejs/plugin-react": "^5.2.0",
+    "autoprefixer": "10.4.14",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
-    "vite": "npm:rolldown-vite@7.2.5"
-  },
-  "overrides": {
-    "vite": "npm:rolldown-vite@7.2.5"
+    "jsdom": "29.0.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.19",
+    "vitest": "^4.1.10"
   }
 }
