@@ -1,0 +1,62 @@
+---
+const { related = [] } = Astro.props;
+
+function labelForPath(path) {
+  const slug = path.replace(/^\/+|\/+$/g, '').split('/').pop() || '';
+  return slug.replace(/-/g, ' ').replace(/\b[a-z]/g, (char) => char.toUpperCase());
+}
+---
+
+{
+  related.length > 0 ? (
+    <section class="related-content" aria-labelledby="related-content-title">
+      <h2 id="related-content-title">Related reading</h2>
+      <ul class="related-content__list">
+        {related.map((href) => (
+          <li class="related-content__item">
+            <a class="related-content__link" href={href}>{labelForPath(href)}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : null
+}
+
+<style>
+  .related-content {
+    margin-top: 3rem;
+  }
+
+  .related-content h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 680;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .related-content__list {
+    display: grid;
+    gap: 0.6rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-content__link {
+    display: inline-block;
+    border-radius: 0.5rem;
+    padding: 0.15rem 0;
+    color: #8ab4f8;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .related-content__link:hover,
+  .related-content__link:focus-visible {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import SeoHead from '../components/SeoHead.astro';
+import { isApprovedPlausibleDomain } from '../lib/analytics-config.js';
+import { buildPageMeta } from '../lib/seo.js';
+import '../styles/global.css';
+
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const pageMeta = buildPageMeta(Astro.props);
+---
+<!doctype html>
+<html lang={pageMeta.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <SeoHead {...Astro.props} />
+    {isApprovedPlausibleDomain(plausibleDomain) && (
+      <script
+        is:inline
+        defer
+        data-domain={plausibleDomain}
+        src="https://plausible.io/js/script.js"
+      ></script>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header>
+      <slot name="header" />
+    </header>
+    <main id="main-content">
+      <slot />
+    </main>
+    <footer>
+      <slot name="footer" />
+    </footer>
+    <script src="../scripts/analytics.js"></script>
+  </body>
+</html>

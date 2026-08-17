@@ -1,0 +1,52 @@
+---
+const claims = Array.isArray(Astro.props.claims) ? Astro.props.claims : [];
+
+const featureDefinitions = [
+  {
+    id: 'claim-monthly-financial-summary',
+    title: 'Monthly financial summaries',
+    marker: '01'
+  },
+  {
+    id: 'claim-property-document-storage',
+    title: 'Property document storage',
+    marker: '02'
+  },
+  {
+    id: 'claim-xlsx-data-export',
+    title: 'XLSX data exports',
+    marker: '03'
+  }
+];
+
+const features = featureDefinitions
+  .map((definition) => ({
+    ...definition,
+    description: claims.find((claim) => claim.id === definition.id)?.text
+  }))
+  .filter((feature) => feature.description);
+---
+
+<section id="features" class="section section--features" aria-labelledby="features-title">
+  <div class="site-container">
+    <div class="section-header">
+      <p class="eyebrow">A calmer operating system for your rentals</p>
+      <h2 id="features-title">The essentials for everyday property management.</h2>
+      <p>
+        Keep the financial and document workflows you use most in one focused place, without adding another complicated spreadsheet.
+      </p>
+    </div>
+
+    {features.length > 0 && (
+      <div class="features-grid">
+        {features.map((feature) => (
+          <article class="feature-card">
+            <span class="feature-card__number" aria-hidden="true">{feature.marker}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
