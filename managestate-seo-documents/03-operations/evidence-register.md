@@ -112,14 +112,12 @@ no consent record:
 
 ### Recorded residual risk
 
-Presenting invented consumer testimonials as genuine is prohibited under the EU Unfair Commercial
-Practices Directive as amended by the Omnibus Directive, which applies to a Spain-based operator.
-Inaccurate pricing or trial copy can additionally conflict with App Store metadata expectations. The
-owner has been informed and has chosen retention.
-
-The lowest-cost remedy remains available at any time: keep the testimonial section's exact markup,
-styling, and carousel behaviour, and render the verified App Store review instead of the six invented
-quotes. That is a data change, not a design change, and it would clear both concerns.
+Residual risk, recorded and accepted: presenting invented consumer testimonials as genuine is
+prohibited under the EU Unfair Commercial Practices Directive as amended by the Omnibus
+Directive, which applies to a Spain-based operator, and inaccurate pricing or trial copy can
+also conflict with App Store metadata expectations. Replacing the six quotes with the one
+verified App Store review, keeping the section markup and styling untouched, would clear both
+concerns at negligible cost and remains available at any time.
 
 ---
 
