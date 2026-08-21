@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "id": "claim-monthly-financial-summary",
+    "text": "ManageState calculates monthly income, expenses, and net income from property transactions.",
+    "status": "verified",
+    "verified": true,
+    "verificationDate": "2026-08-21",
+    "source": {
+      "repo": "polmonta/ManageState",
+      "commit": "d51f6a208e96ddad3ba39e80aca37dc167182f8d",
+      "path": "src/services/propertyService.js",
+      "lines": "65-87"
+    }
+  },
+  {
+    "id": "claim-property-document-storage",
+    "text": "ManageState can upload documents for a property and save their document metadata.",
+    "status": "verified",
+    "verified": true,
+    "verificationDate": "2026-08-21",
+    "source": {
+      "repo": "polmonta/ManageState",
+      "commit": "d51f6a208e96ddad3ba39e80aca37dc167182f8d",
+      "path": "src/services/propertyService.js",
+      "lines": "225-298"
+    }
+  },
+  {
+    "id": "claim-xlsx-data-export",
+    "text": "ManageState can export property, transaction, recurring-item, and monthly-summary data as an XLSX workbook.",
+    "status": "verified",
+    "verified": true,
+    "verificationDate": "2026-08-21",
+    "source": {
+      "repo": "polmonta/ManageState",
+      "commit": "d51f6a208e96ddad3ba39e80aca37dc167182f8d",
+      "path": "src/services/exportService.js",
+      "lines": "31-43, 56-67, 169-231, 239-289, 292-393, 395-422"
+    }
+  }
+]
