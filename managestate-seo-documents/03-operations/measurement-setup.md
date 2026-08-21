@@ -2,7 +2,7 @@
 
 **Original baseline date:** 2026-08-05
 **Revision:** 2 — 2026-08-21
-**Status:** accounts owner-confirmed; committed repository artifacts must be re-created; tracking integration pending Phase 1a; App Store campaign links verified
+**Status:** Search Console and Plausible re-confirmed on 2026-08-21; tracking integration pending Phase 1a; nine App Store campaign links re-verified; sanitized repository artifacts recreated
 **Canonical site:** `https://managestate.app`
 
 This runbook establishes measurement operations without inventing historical data. Repository
@@ -27,9 +27,45 @@ What changed since:
 
 | System | Required target | Current status | What is needed from the owner |
 | --- | --- | --- | --- |
-| Google Search Console | Domain property `sc-domain:managestate.app` | **Owner-confirmed configured** on 2026-08-05: created and DNS ownership verified. No authenticated export has been recorded in the repository. | Re-open the property, record indexing status and coverage counts, and submit the sitemap once Phase 1a publishes it. |
-| Plausible | Site `managestate.app` | **Owner-confirmed created** on 2026-08-05. No script has ever been deployed, so no data exists. | Confirm the site still exists. Measurement begins with the Phase 1a deployment. |
-| App Store Connect | App `6751497970` / bundle `com.managestate.app` | **Campaign links verified**: nine owner-supplied public links resolved to app ID `6751497970` on 2026-08-05. | Re-verify the links and the provider token, then retain future aggregate campaign results. |
+| Google Search Console | Domain property `sc-domain:managestate.app` | **Authenticated and accessible** on 2026-08-21 with `siteOwner` permission. The 90-day performance window is recorded below; indexed/excluded totals are unavailable from the connected MCP. | Submit the Phase 1a sitemap after it is published, then record coverage totals when the interface or export provides them. |
+| Plausible | Site `managestate.app` | **Authenticated query succeeded** on 2026-08-21. The 90-day timeseries and `app_store_click` conversion query returned empty results; no metrics or events have been collected. | Measurement begins with the Phase 1a deployment; verify the first page view and event after release. |
+| App Store Connect | App `6751497970` / bundle `com.managestate.app` | **Nine public campaign links re-verified** on 2026-08-21. Each returned HTTP 200 and retained the app ID and provider token after redirect. | Retain future aggregate campaign results; no credential is stored in this repository. |
+
+## Fresh Phase 0 re-confirmation — 2026-08-21
+
+The following observations were collected from authenticated Search Console and Plausible MCPs,
+public HTTP checks, and the public App Store campaign URLs. No credentials, raw exports, or account
+screenshots were copied into the repository.
+
+### Google Search Console
+
+- Property: `sc-domain:managestate.app` (`siteOwner` permission).
+- Performance window: `2026-05-23` through `2026-08-21`.
+- Performance totals: 1 click, 14 impressions, CTR `0.0714` (7.14%), average position `14.4`.
+- Advanced query result: `mindestate`, 0 clicks, 2 impressions, position `32`.
+- Question-query filter: no matching rows; the committed sanitized file is `[]`.
+- Homepage inspection: `PASS`, `Submitted and indexed`, last crawled `2026-08-05 21:09`, fetch
+  `SUCCESSFUL`, robots `ALLOWED`, indexing `INDEXING_ALLOWED`, Google canonical
+  `https://managestate.app/`, user canonical `null`.
+- Indexed and excluded URL totals: `unavailable`; the connected MCP exposes URL inspection but not
+  aggregate coverage totals.
+- Sitemaps: none reported. Submission remains deferred until Phase 1a publishes `sitemap.xml`.
+
+### Plausible
+
+The authenticated query for site `managestate.app` succeeded for `2026-05-23` through `2026-08-21`.
+The timeseries returned no results, and the `app_store_click` conversion query returned no results.
+This records no collected metrics or events; it is not an estimate of traffic.
+
+### Public site and campaign checks
+
+The homepage returned HTTP 200 with `text/html; charset=utf-8`, title `ManageState`, and no
+robots/googlebot meta tag, canonical, Open Graph, or JSON-LD. `robots.txt`, `sitemap.xml`, and
+`sitemap-index.xml` each returned HTTP 404 from GitHub Pages.
+
+All nine campaign URLs in the inventory below returned HTTP 200 and redirected to the US App Store
+listing while retaining app ID `6751497970`, campaign parameter `ct`, and public provider token
+`pt=128092033`. The campaign parameters are public attribution identifiers, not credentials.
 
 ## Search Console procedure
 
@@ -51,7 +87,7 @@ What changed since:
 
    Populate every numeric field from the observed export. Do not add a record when a source value is
    unavailable. Remove all other dimensions and any sensitive values.
-7. No authenticated export has ever been supplied, so the committed question file remains `[]` and historical metrics remain unavailable. Record whatever range Google actually exposes later; do not assume it will be zero or backfilled.
+7. The authenticated 90-day query result contained no rows matching the question filter, so the committed question file remains `[]`. The observed performance totals and available date range are recorded in the 2026-08-21 baseline; do not assume future windows will be zero or backfilled.
 
 ## Plausible procedure
 
