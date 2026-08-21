@@ -28,7 +28,7 @@ Two contract changes:
 
 | Evidence category | Accepted records | Data file | Decision |
 | --- | ---: | --- | --- |
-| App Store reviews | re-import required | `source/src/data/evidence/app-store-reviews.json` | The 2026-08-05 register recorded one public Apple review. The file was lost in the revert; Phase 0 Task 2 re-imports from Apple's public endpoints and the observed count is recorded fresh. |
+| App Store reviews | 0 | `source/src/data/evidence/app-store-reviews.json` | The public Apple importer ran on 2026-08-21 and returned 0 verified reviews; `app-store-reviews.json` remains `[]`. The historical one-review count is not carried forward. |
 | Customer testimonials | 0 | `source/src/data/evidence/customer-testimonials.json` | Empty: no owner-supplied source record or publication consent has been provided. |
 | Product claims | 3, verified at pinned commit `d51f6a208e96ddad3ba39e80aca37dc167182f8d` | `source/src/data/evidence/product-claims.json` | Accepted only for behaviour directly verified in the shipping app; each record carries the repository, commit, path, and lines. |
 | Screenshots | 0 | `source/src/data/evidence/screenshots.json` | Empty: no captured app version, provenance record, or approval date has been proven for any marketing image. |
