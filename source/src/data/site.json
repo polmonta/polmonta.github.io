@@ -1,0 +1,23 @@
+{
+  "siteUrl": "https://managestate.app",
+  "appStoreId": "6751497970",
+  "bundleId": "com.managestate.app",
+  "appStoreProviderToken": "128092033",
+  "appStoreCampaigns": [
+    "website-home",
+    "website-features",
+    "website-audiences",
+    "website-comparisons",
+    "website-guides",
+    "website-tools",
+    "medium",
+    "substack",
+    "youtube"
+  ],
+  "plausibleDomain": "managestate.app",
+  "primaryLanguage": "en",
+  "supportedLanguages": ["en", "es", "ca"],
+  "privacyUrl": "https://managestate.app/privacy/",
+  "contactUrl": "https://managestate.app/contact/",
+  "termsUrl": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+}
