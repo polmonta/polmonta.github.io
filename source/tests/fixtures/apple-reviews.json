@@ -1,0 +1,30 @@
+{
+  "feed": {
+    "entry": [
+      {
+        "id": {
+          "label": "https://itunes.apple.com/review?id=review-123"
+        },
+        "title": {
+          "label": "Simple and useful"
+        },
+        "content": {
+          "label": "ManageState keeps my property finances easy to follow."
+        },
+        "im:rating": {
+          "label": "5"
+        },
+        "author": {
+          "name": {
+            "label": "Apple User"
+          }
+        },
+        "link": {
+          "attributes": {
+            "href": "https://apps.apple.com/us/review?id=review-123"
+          }
+        }
+      }
+    ]
+  }
+}

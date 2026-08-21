@@ -28,24 +28,25 @@ Two contract changes:
 
 | Evidence category | Accepted records | Data file | Decision |
 | --- | ---: | --- | --- |
-| App Store reviews | re-import required | `source/src/data/evidence/app-store-reviews.json` | The 2026-08-05 register recorded one public Apple review. The file was lost in the revert; Phase 0 Task 2 re-imports from Apple's public endpoints and the observed count is recorded fresh. |
+| App Store reviews | 0 | `source/src/data/evidence/app-store-reviews.json` | The public Apple importer ran on 2026-08-21 and returned 0 verified reviews; `app-store-reviews.json` remains `[]`. The historical one-review count is not carried forward. |
 | Customer testimonials | 0 | `source/src/data/evidence/customer-testimonials.json` | Empty: no owner-supplied source record or publication consent has been provided. |
-| Product claims | 3, pending re-verification | `source/src/data/evidence/product-claims.json` | Accepted only for behaviour directly verified in the shipping app, and only once each record carries a commit SHA. |
+| Product claims | 3, verified at pinned commit `d51f6a208e96ddad3ba39e80aca37dc167182f8d` | `source/src/data/evidence/product-claims.json` | Accepted only for behaviour directly verified in the shipping app; each record carries the repository, commit, path, and lines. |
 | Screenshots | 0 | `source/src/data/evidence/screenshots.json` | Empty: no captured app version, provenance record, or approval date has been proven for any marketing image. |
 
 ## Accepted evidence
 
 ### Product claims
 
-These three claims were verified against the ManageState application on 2026-08-05. They describe
-behaviour, not customer outcomes, adoption, security levels, tax results, or plan terms. Each must be
-re-verified at a pinned commit during Phase 0 Task 4 before it may be rendered again.
+These three claims were re-verified against the ManageState application at commit
+`d51f6a208e96ddad3ba39e80aca37dc167182f8d` on 2026-08-21. They describe behaviour, not customer
+outcomes, adoption, security levels, tax results, or plan terms. Each record carries its exact
+repository path and line range in `product-claims.json`.
 
 | ID | Exact wording | Verification source | Status |
 | --- | --- | --- | --- |
-| `claim-monthly-financial-summary` | "ManageState calculates monthly income, expenses, and net income from property transactions." | app repo, `src/services/propertyService.js` — **commit SHA required** | `verified` pending re-verification |
-| `claim-property-document-storage` | "ManageState can upload documents for a property and save their document metadata." | app repo, `src/services/propertyService.js` — **commit SHA required** | `verified` pending re-verification |
-| `claim-xlsx-data-export` | "ManageState can export property, transaction, recurring-item, and monthly-summary data as an XLSX workbook." | app repo, `src/services/exportService.js` — **commit SHA required** | `verified` pending re-verification |
+| `claim-monthly-financial-summary` | "ManageState calculates monthly income, expenses, and net income from property transactions." | `polmonta/ManageState` `src/services/propertyService.js:65-87` at `d51f6a208e96ddad3ba39e80aca37dc167182f8d` | `verified` |
+| `claim-property-document-storage` | "ManageState can upload documents for a property and save their document metadata." | `polmonta/ManageState` `src/services/propertyService.js:225-298` at `d51f6a208e96ddad3ba39e80aca37dc167182f8d` | `verified` |
+| `claim-xlsx-data-export` | "ManageState can export property, transaction, recurring-item, and monthly-summary data as an XLSX workbook." | `polmonta/ManageState` `src/services/exportService.js:31-43, 56-67, 169-231, 239-289, 292-393, 395-422` at `d51f6a208e96ddad3ba39e80aca37dc167182f8d` | `verified` |
 
 A claim whose source cannot be re-verified at a specific commit is removed, not carried forward.
 
@@ -111,14 +112,12 @@ no consent record:
 
 ### Recorded residual risk
 
-Presenting invented consumer testimonials as genuine is prohibited under the EU Unfair Commercial
-Practices Directive as amended by the Omnibus Directive, which applies to a Spain-based operator.
-Inaccurate pricing or trial copy can additionally conflict with App Store metadata expectations. The
-owner has been informed and has chosen retention.
-
-The lowest-cost remedy remains available at any time: keep the testimonial section's exact markup,
-styling, and carousel behaviour, and render the verified App Store review instead of the six invented
-quotes. That is a data change, not a design change, and it would clear both concerns.
+Residual risk, recorded and accepted: presenting invented consumer testimonials as genuine is
+prohibited under the EU Unfair Commercial Practices Directive as amended by the Omnibus
+Directive, which applies to a Spain-based operator, and inaccurate pricing or trial copy can
+also conflict with App Store metadata expectations. Replacing the six quotes with the one
+verified App Store review, keeping the section markup and styling untouched, would clear both
+concerns at negligible cost and remains available at any time.
 
 ---
 
@@ -132,7 +131,7 @@ exception above.
 | --- | --- | --- |
 | "Get a clear, real-time view of your income and expenses" | `Features.jsx:7` | Rejected as written. Monthly totals are verified; "real-time" is not. |
 | "Real-time dashboard" | `Features.jsx:9` | Rejected. Same reason. |
-| "CSV Exports" | `Features.jsx:15` | **Factually incorrect, and correctable.** The verified export is an XLSX workbook. A one-word text change alters no layout and is permitted under design §6.1. Owner decision required; record it either way in Phase 0 Task 4 Step 3. |
+| "CSV Exports" | `Features.jsx:15` | **Corrected on 2026-08-21 to "XLSX Exports" with owner approval.** The verified export is an XLSX workbook; the one-word correction alters no layout. |
 | "Smart categorization" | `Features.jsx:23` | Rejected. Upload and storage are verified; automated categorization is not. |
 | "Store everything … in one secure place" | `Features.jsx:27` | Rejected. Security level is not proven by any available source. |
 | "Tenant details", "Maintenance logs" | `Features.jsx:30` | Rejected. No verified claim covers tenant records or maintenance logs. |
@@ -146,8 +145,10 @@ exception above.
 1. Source records and publication consent for any customer testimonial, including approval date, allowed languages, and the exact quote and name or initials that may be published.
 2. A provenance record for each marketing screenshot: public asset path, captured app version or build, capture date, approval date, and the claims the image visibly supports.
 3. An authoritative current App Store listing or release record before adding plan or card terms, supported-device coverage, tax or export outcomes, or security language.
-4. The commit SHA of the app repository revision against which the three product claims are re-verified.
-5. A decision on the "CSV Exports" correction.
 
-Until these exist, new surfaces render only the re-verified code-verified claims and the separately
-inventoried public App Store review records.
+Future claim changes must be re-verified against a pinned app-repository commit and recorded in the
+claim source object. The owner-approved "CSV Exports" → "XLSX Exports" correction is recorded above
+and applied only to the existing homepage benefit text.
+
+Until the owner supplies the remaining evidence above, new surfaces render only the re-verified
+code-verified claims and the separately inventoried public App Store review records.

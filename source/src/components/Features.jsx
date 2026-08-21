@@ -14,7 +14,7 @@ const features = [
         description: "Deep dive into your portfolio's performance with detailed statistics. Export reports for tax season with a single tap.",
         icon: BarChart3,
         image: "/img/makedatadriven.PNG",
-        benefits: ["Visual charts", "CSV Exports", "Category based analysis"]
+        benefits: ["Visual charts", "XLSX Exports", "Category based analysis"]
     },
     {
         title: "Track Every Dollar Effortlessly",
